@@ -24,8 +24,6 @@ When "service timeout" is set to 1 second, but the request will sleep for 2 seco
 
 ```term
 $ EXAMPLE_SLEEP_TIME=2 RACK_TIMEOUT_SERVICE_TIMEOUT=1 bundle exec rackup config.ru
-⛄  2.5.1 🚀  ~/rack-timeout-demos (master)
-$ EXAMPLE_SLEEP_TIME=2 RACK_TIMEOUT_SERVICE_TIMEOUT=1 bundle exec rackup config.ru
 Thin web server (v1.7.2 codename Bachmanity)
 Maximum connections set to 1024
 Listening on localhost:9292, CTRL+C to stop
@@ -106,7 +104,6 @@ To trigger the "wait" timeout the "X-Request-Start" header has to be present. Th
 The request is not queued, you can see that it "waits" roughly 19 ms before the rack tiemout middleware kicks in. After this the service timeout value will be ignored and instead it will be "wait_timeout - time waited". In this case the wait timeout is 1 second (1000ms) and the time waited is 19ms. So the service timeout fires after 981ms.
 
 ```term
-⛄  2.5.1 🚀  ~/rack-timeout-demos (master)
 $ RACK_TIMEOUT_WAIT_TIMEOUT=1 EXAMPLE_SLEEP_TIME=2 bundle exec rackup config.ru
 Thin web server (v1.7.2 codename Bachmanity)
 Maximum connections set to 1024
@@ -180,8 +177,7 @@ $ RACK_TIMEOUT_WAIT_TIMEOUT=2 EXAMPLE_SLEEP_TIME=1 bundle exec rackup config.ru
 In this case we will make three concurrent requests, the single `&` tells bash to run each of the commands at the same time. Since our server is single threaded (thin) it only process one request at a time. The first request will return a success and the second and third will fail, but for different reasons.
 
 ```
-$ curl localhost:9292 -I -X GET --header "X-Request-Start: t=$(ruby -e 'puts Time.now.to_f.round(3)')"
-& curl localhost:9292 -I -X GET --header "X-Request-Start: t=$(ruby -e 'puts Time.now.to_f.round(3)')" & curl localhost:9292 -I -X GET --header "X-Request-Start: t=$(ruby -e 'puts Time.now.to_f.round(3)')"
+$ curl localhost:9292 -I -X GET --header "X-Request-Start: t=$(ruby -e 'puts Time.now.to_f.round(3)')" & curl localhost:9292 -I -X GET --header "X-Request-Start: t=$(ruby -e 'puts Time.now.to_f.round(3)')" & curl localhost:9292 -I -X GET --header "X-Request-Start: t=$(ruby -e 'puts Time.now.to_f.round(3)')"
 ```
 
 #### Results example 2
@@ -191,7 +187,6 @@ You can see that there are three requests but only two failures. The results fro
 Note: Since we're playing with concurrency your results might be slightly different than mine. Some times the second request will randomly pass, the third request should always fail.
 
 ```
-⛄  2.5.1 🚀  ~/rack-timeout-demos (master)
 $ RACK_TIMEOUT_WAIT_TIMEOUT=2 EXAMPLE_SLEEP_TIME=1 bundle exec rackup config.ru
 Thin web server (v1.7.2 codename Bachmanity)
 Maximum connections set to 1024
