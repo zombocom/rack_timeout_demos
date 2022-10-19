@@ -322,4 +322,4 @@ Note that the first request to return is a success (200) while the second and th
 
 ## Wait Overtime
 
-Disabled by default. When enabled and a reques has a body (for example a post with a json blob) then this does something different. Here's the docs https://github.com/heroku/rack-timeout/blob/master/doc/settings.md#wait-overtime.
+Disabled by default. When enabled and a request has a body (for example a post with a json blob) then this does something different. Here's the docs https://github.com/heroku/rack-timeout/blob/master/doc/settings.md#wait-overtime.
